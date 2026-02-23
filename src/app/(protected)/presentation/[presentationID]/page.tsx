@@ -1,0 +1,99 @@
+"use client";
+
+import { getProjectById } from "@/actions/projects";
+import { themes } from "@/lib/constant";
+import { useSlideStore } from "@/store/useSlideStore";
+import { Loader2 } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useRouter, useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import Navbar from "./_components/navbar/navbar";
+import LayoutPreview from "./_components/editor-sidebar/left-sidebar/layoutPreview";
+import Editor from "./_components/editor/editor";
+import EditorSidebar from "./_components/editor-sidebar/right-sidebar";
+import { Project } from "@prisma/client";
+
+const Page = () => {
+  const params = useParams();
+  const router = useRouter();
+  const [isLoading, setLoading] = useState(true);
+  const { setTheme } = useTheme();
+  const { currentTheme, setCurrentTheme, setProject, setSlides } =
+    useSlideStore();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await getProjectById(params.presentationID as string);
+
+        if (response.status !== 200 || !response.data) {
+          toast.error("Oops!", {
+            description: "Unable to fetch project.",
+          });
+          router.push("/dashboard");
+          return;
+        }
+
+        const projectData = response.data as Project;
+
+        const findTheme = themes.find(
+          (theme) => theme.name === projectData.themeName
+        );
+
+        setCurrentTheme(findTheme || themes[0]);
+        setTheme(findTheme?.type === "dark" ? "dark" : "light");
+        setProject(projectData);
+        setSlides(JSON.parse(JSON.stringify(projectData.slides)));
+      } catch (error) {
+        console.error("Error fetching project:", error);
+        toast.error("Error!", {
+          description: "An unexpected error occurred.",
+        });
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [
+    params.presentationID,
+    router,
+    setCurrentTheme,
+    setTheme,
+    setProject,
+    setSlides,
+  ]);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Loader2 className="text-primary size-8 animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <div className="flex min-h-screen flex-col">
+        <Navbar presentationID={params.presentationID as string} />
+        <div
+          className="flex flex-1 overflow-hidden pt-16"
+          style={{
+            backgroundColor: currentTheme.backgroundColor,
+            color: currentTheme.accentColor,
+            fontFamily: currentTheme.fontFamily,
+          }}
+        >
+          <LayoutPreview />
+          <div className="ml-64 flex-1 pr-16">
+            <Editor isEditable={true} />
+          </div>
+          <EditorSidebar />
+        </div>
+      </div>
+    </DndProvider>
+  );
+};
+
+export default Page;
