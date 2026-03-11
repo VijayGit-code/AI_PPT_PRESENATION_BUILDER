@@ -102,7 +102,8 @@ const ThemeCard = ({
             </div>
             {content}
           </CardContent>
-          <div className="relative h-80 w-full overflow-hidden rounded-r-lg md:h-auto md:w-1/2">
+          <div className="relative h-50 w-50 overflow-hidden rounded-r-lg md:h-auto md:w-1/2">
+          {/* h-80 w-full */}
             <Image
               src="https://plus.unsplash.com/premium_photo-1729004379397-ece899804701?q=80&w=2767&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="Theme Preview Image"
@@ -114,6 +115,7 @@ const ThemeCard = ({
       </Card>
     </motion.div>
   );
+   
 };
 
 export default ThemeCard;

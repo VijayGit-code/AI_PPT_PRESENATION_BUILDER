@@ -31,6 +31,7 @@ type MasterRecursiveComponentProps = {
   isPreview?: boolean;
   isEditable?: boolean;
   slideId: string;
+  slideType?: string; 
   index?: number;
   onContentChange: (
     contentID: string,
@@ -251,53 +252,135 @@ const ContentRenderer: React.FC<MasterRecursiveComponentProps> = React.memo(
 
       case "column":
         if (Array.isArray(content.content)) {
-          return (
-            <motion.div
-              {...animationProps}
-              className={cn("sizefull flex flex-col", content.className)}
-            >
-              {content.content.length > 0 ? (
-                (content.content as ContentItem[]).map(
-                  (subItem: ContentItem, subIndex: number) => (
-                    <React.Fragment key={subItem.id || `item-${subIndex}`}>
-                      {!isPreview &&
-                        !subItem.restrictedToDrop &&
-                        subIndex === 0 &&
-                        isEditable && (
-                          <DropZone
-                            index={0}
-                            parentID={content.id}
-                            slideID={slideId}
-                          />
-                        )}
-                      <MasterRecursiveComponent
-                        content={subItem}
-                        slideId={slideId}
-                        index={subIndex}
-                        isEditable={isEditable}
-                        isPreview={isPreview}
-                        onContentChange={onContentChange}
-                      />
-                      {!isPreview &&
-                        !subItem.restrictedToDrop &&
-                        isEditable && (
-                          <DropZone
-                            index={subIndex + 1}
-                            parentID={content.id}
-                            slideID={slideId}
-                          />
-                        )}
-                    </React.Fragment>
+          const items = content.content as ContentItem[];
+          
+          // Separate images from text/other content
+          const imageItems = items.filter(item => item.type === "image");
+          const textItems = items.filter(item => item.type !== "image");
+          
+          // Check if we have both images and text for horizontal layout
+          const hasImages = imageItems.length > 0;
+          const hasText = textItems.length > 0;
+          const shouldUseHorizontal = hasImages && hasText;
+          
+          if (shouldUseHorizontal) {
+     return (
+  <motion.div
+    {...animationProps}
+    className={cn(
+      "w-full h-full flex flex-row items-stretch pl-12 py-10",
+      content.className
+    )}
+  >
+    {/* IMAGE SECTION (40%) */}
+    <div className="flex-[0.4] relative">
+      {imageItems.map((imageItem: ContentItem, imgIndex: number) => (
+        <div key={imageItem.id || `image-${imgIndex}`} className="absolute inset-0">
+          <MasterRecursiveComponent
+            content={imageItem}
+            slideId={slideId}
+            index={imgIndex}
+            isEditable={isEditable}
+            isPreview={isPreview}
+            onContentChange={onContentChange}
+          />
+        </div>
+      ))}
+    </div>
+
+    {/* TEXT SECTION (60%) */}
+    <div className="flex-[0.6] flex flex-col justify-center px-16">
+      {textItems.map((textItem: ContentItem, textIndex: number) => (
+        <React.Fragment key={textItem.id || `text-${textIndex}`}>
+          <MasterRecursiveComponent
+            content={textItem}
+            slideId={slideId}
+            index={textIndex}
+            isEditable={isEditable}
+            isPreview={isPreview}
+            onContentChange={onContentChange}
+          />
+        </React.Fragment>
+      ))}
+    </div>
+  </motion.div>
+);
+
+
+
+          }
+           if (!hasImages && hasText) {
+    return (
+      <motion.div>
+        <div className="flex-[0.6] flex flex-col justify-center px-16">
+      {textItems.map((textItem: ContentItem, textIndex: number) => (
+        <React.Fragment key={textItem.id || `text-${textIndex}`}>
+          <MasterRecursiveComponent
+            content={textItem}
+            slideId={slideId}
+            index={textIndex}
+            isEditable={isEditable}
+            isPreview={isPreview}
+            onContentChange={onContentChange}
+          />
+        </React.Fragment>
+      ))}
+    </div>
+      </motion.div>
+    );
+  } else {
+            // Vertical layout: Default (no images or no text)
+            return (
+              <motion.div
+                {...animationProps}
+                className={cn("sizefull flex flex-col", content.className)}
+              >
+                {content.content.length > 0 ? (
+                  (content.content as ContentItem[]).map(
+                    (subItem: ContentItem, subIndex: number) => (
+                      <React.Fragment key={subItem.id || `item-${subIndex}`}>
+                        {!isPreview &&
+                          !subItem.restrictedToDrop &&
+                          subIndex === 0 &&
+                          isEditable && (
+                            <DropZone
+                              index={0}
+                              parentID={content.id}
+                              slideID={slideId}
+                            />
+                          )}
+                        <MasterRecursiveComponent
+                          content={subItem}
+                          slideId={slideId}
+                          index={subIndex}
+                          isEditable={isEditable}
+                          isPreview={isPreview}
+                          onContentChange={onContentChange}
+                        />
+                        {!isPreview &&
+                          !subItem.restrictedToDrop &&
+                          isEditable && (
+                            <DropZone
+                              index={subIndex + 1}
+                              parentID={content.id}
+                              slideID={slideId}
+                            />
+                          )}
+                      </React.Fragment>
+                    )
                   )
-                )
-              ) : isEditable ? (
-                <DropZone index={0} parentID={content.id} slideID={slideId} />
-              ) : null}
-            </motion.div>
-          );
+                ) : isEditable ? (
+                  <DropZone index={0} parentID={content.id} slideID={slideId} />
+                ) : null}
+              </motion.div>
+            );
+          }
         }
         return null;
-
+      
+   
+        
+  
       default:
         return null;
     }

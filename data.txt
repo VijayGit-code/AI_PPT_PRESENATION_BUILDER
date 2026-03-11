@@ -1,1 +1,7 @@
  // next dev --turbopack
+
+
+ "accentLeft", "accentRight", "imageAndText", "textAndImage",
+"twoColumns", "twoColumnsWithHeading",
+"fourColumns", "twoImageColumns", "threeImageColumns",
+"fourImageColumns", "tableLayout", "blank-card"

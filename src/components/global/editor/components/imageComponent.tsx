@@ -15,6 +15,7 @@ type CustomImageProps = {
   ) => void;
 };
 
+
 const CustomImage = ({
   alt,
   contentId,
@@ -25,13 +26,16 @@ const CustomImage = ({
   onContentChange,
 }: CustomImageProps) => {
   return (
-    <div className={`group relative size-full rounded-lg`}>
+    <div className={`group relative w-full h-full rounded-lg overflow-hidden flex items-center justify-center`}>
       <Image
-        src={src|| "https://via.placeholder.com/1024"}
+      
+        src={ src }
+        unoptimized
         alt={alt}
-        className={`size-full rounded-lg object-cover ${className}`}
-        width={isPreview ? 48 : 800}
-        height={isPreview ? 48 : 800}
+        className={`w-full h-full rounded-lg object-cover ${className}`}
+        width={isPreview ? 48 : 200}
+        height={isPreview ? 48 : 200}
+        sizes="50vw"
       />
       {!isPreview && isEditable && (
         <div className="absolute top-0 right-0 hidden group-hover:block">

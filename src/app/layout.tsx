@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kraton - AI PPT Generator",
+  title: "Slide - AI PPT Generator",
   description: "Generate PPTs using AI in single click",
 };
 

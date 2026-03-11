@@ -130,7 +130,7 @@ export const AccentRight = {
 export const ImageAndText = {
   slideName: "Image and text",
   type: "imageAndText",
-  className: "min-h-[200px] p-8 mx-auto flex justify-center items-center",
+  className: "min-h-[200px] w-full p-8 mx-auto flex justify-center items-center",
   content: {
     id: uuidv4(),
     type: "column" as ContentType,
@@ -186,6 +186,7 @@ export const ImageAndText = {
     ],
   },
 };
+ 
 
 export const TextAndImage = {
   slideName: "Text and image",
@@ -246,8 +247,7 @@ export const TextAndImage = {
     ],
   },
 };
-
-export const TwoColumns = {
+ export const TwoColumns = {
   slideName: "Two columns",
   type: "twoColumns",
   className: "p-4 mx-auto flex justify-center items-center",
@@ -934,3 +934,515 @@ export const TableLayout = {
     ],
   },
 };
+// export const AccentLeft = {
+//   slideName: "Accent left",
+//   type: "accentLeft",
+//   className: "min-h-[500px] w-full",
+//   content: {
+//     id: uuidv4(),
+//     type: "column" as ContentType,
+//     name: "Column",
+//     className: "w-full min-h-[500px]",
+//     content: [
+//       // LEFT SIDE (IMAGE)
+//       {
+//         id: uuidv4(),
+//         type: "image" as ContentType,
+//         name: "Image",
+//         className: "w-full h-full object-cover",
+//         content:
+//           "https://plus.unsplash.com/premium_photo-1729004379397-ece899804701?q=80&w=2767&auto=format&fit=crop",
+//         alt: "Image",
+//       },
+
+//       // RIGHT SIDE (TEXT)
+//       {
+//         id: uuidv4(),
+//         type: "column" as ContentType,
+//         name: "Text Column",
+//         className: "flex flex-col justify-center p-12 gap-4",
+//         content: [
+//           {
+//             id: uuidv4(),
+//             type: "heading1" as ContentType,
+//             name: "Heading1",
+//             content: "",
+//             placeholder: "Heading",
+//           },
+//           {
+//             id: uuidv4(),
+//             type: "paragraph" as ContentType,
+//             name: "Paragraph",
+//             content: "",
+//             placeholder: "Start typing here...",
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// };
+// export const AccentRight = {
+//   slideName: "Accent Right",
+//   type: "accentRight",
+//   className: "min-h-[500px] w-full",
+//   content: {
+//     id: uuidv4(),
+//     type: "column" as ContentType,
+//     name: "Column",
+//     className: "w-full min-h-[500px]",
+//     content: [
+//       // LEFT SIDE (TEXT)
+//       {
+//         id: uuidv4(),
+//         type: "column" as ContentType,
+//         name: "Text Column",
+//         className: "flex flex-col justify-center p-12 gap-4",
+//         content: [
+//           {
+//             id: uuidv4(),
+//             type: "heading1" as ContentType,
+//             name: "Heading1",
+//             content: "",
+//             placeholder: "Heading",
+//           },
+//           {
+//             id: uuidv4(),
+//             type: "paragraph" as ContentType,
+//             name: "Paragraph",
+//             content: "",
+//             placeholder: "Start typing here...",
+//           },
+//         ],
+//       },
+
+//       // RIGHT SIDE (IMAGE)
+//       {
+//         id: uuidv4(),
+//         type: "image" as ContentType,
+//         name: "Image",
+//         className: "w-full h-full object-cover",
+//         content:
+//           "https://plus.unsplash.com/premium_photo-1729004379397-ece899804701?q=80&w=2767&auto=format&fit=crop",
+//         alt: "Image",
+//       },
+//     ],
+//   },
+// };
+// export const ImageAndText = {
+//   slideName: "Image and text",
+//   type: "imageAndText",
+//   className: "min-h-[500px] w-full",
+//   content: {
+//     id: uuidv4(),
+//     type: "column" as ContentType,
+//     name: "Column",
+//     className: "w-full min-h-[500px]",
+//     content: [
+//       {
+//         id: uuidv4(),
+//         type: "image" as ContentType,
+//         name: "Image",
+//         className: "w-full h-full object-cover",
+//         content:
+//           "https://plus.unsplash.com/premium_photo-1729004379397-ece899804701?q=80&w=2767&auto=format&fit=crop",
+//         alt: "Image",
+//       },
+//       {
+//         id: uuidv4(),
+//         type: "column" as ContentType,
+//         name: "Text Column",
+//         className: "flex flex-col justify-center p-12 gap-4",
+//         content: [
+//           {
+//             id: uuidv4(),
+//             type: "heading1" as ContentType,
+//             name: "Heading1",
+//             content: "",
+//             placeholder: "Heading",
+//           },
+//           {
+//             id: uuidv4(),
+//             type: "paragraph" as ContentType,
+//             name: "Paragraph",
+//             content: "",
+//             placeholder: "Start typing here...",
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// };
+// export const TwoColumns = {
+//   slideName: "Two columns",
+//   type: "twoColumns",
+//   className: "min-h-[500px] w-full",
+//   content: {
+//     id: uuidv4(),
+//     type: "column" as ContentType,
+//     name: "Row",
+//     className: "w-full min-h-[500px]",
+//     content: [
+//       {
+//         id: uuidv4(),
+//         type: "column" as ContentType,
+//         name: "Left Column",
+//         className: "flex flex-col justify-center p-12 gap-4",
+//         content: [
+//           {
+//             id: uuidv4(),
+//             type: "heading3",
+//             name: "Heading",
+//             content: "",
+//             placeholder: "Heading",
+//           },
+//           {
+//             id: uuidv4(),
+//             type: "paragraph",
+//             name: "Paragraph",
+//             content: "",
+//             placeholder: "Start typing...",
+//           },
+//         ],
+//       },
+//       {
+//         id: uuidv4(),
+//         type: "column" as ContentType,
+//         name: "Right Column",
+//         className: "flex flex-col justify-center p-12 gap-4",
+//         content: [
+//           {
+//             id: uuidv4(),
+//             type: "heading3",
+//             name: "Heading",
+//             content: "",
+//             placeholder: "Heading",
+//           },
+//           {
+//             id: uuidv4(),
+//             type: "paragraph",
+//             name: "Paragraph",
+//             content: "",
+//             placeholder: "Start typing...",
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// };
+// export const ThreeColumns = {
+//   slideName: "Three columns",
+//   type: "threeColumns",
+//   className: "min-h-[500px] w-full",
+//   content: {
+//     id: uuidv4(),
+//     type: "column",
+//     name: "Row",
+//     className: "w-full min-h-[500px]",
+//     content: [
+//       ...Array(3).fill(null).map(() => ({
+//         id: uuidv4(),
+//         type: "column",
+//         name: "Column",
+//         className: "flex flex-col justify-center p-10 gap-4",
+//         content: [
+//           {
+//             id: uuidv4(),
+//             type: "heading3",
+//             name: "Heading3",
+//             content: "",
+//             placeholder: "Heading",
+//           },
+//           {
+//             id: uuidv4(),
+//             type: "paragraph",
+//             name: "Paragraph",
+//             content: "",
+//             placeholder: "Start typing...",
+//           },
+//         ],
+//       })),
+//     ],
+//   },
+// };
+// export const FourColumns = {
+//   slideName: "Four columns",
+//   type: "fourColumns",
+//   className: "min-h-[500px] w-full",
+//   content: {
+//     id: uuidv4(),
+//     type: "column",
+//     name: "Row",
+//     className: "w-full min-h-[500px]",
+//     content: [
+//       ...Array(4).fill(null).map(() => ({
+//         id: uuidv4(),
+//         type: "column",
+//         name: "Column",
+//         className: "flex flex-col justify-center p-8 gap-4",
+//         content: [
+//           {
+//             id: uuidv4(),
+//             type: "heading3",
+//             name: "Heading3",
+//             content: "",
+//             placeholder: "Heading",
+//           },
+//           {
+//             id: uuidv4(),
+//             type: "paragraph",
+//             name: "Paragraph",
+//             content: "",
+//             placeholder: "Start typing...",
+//           },
+//         ],
+//       })),
+//     ],
+//   },
+// };
+// export const TwoImageColumns = {
+//   slideName: "Two Image Columns",
+//   type: "twoImageColumns",
+//   className: "min-h-[500px] w-full",
+//   content: {
+//     id: uuidv4(),
+//     type: "column",
+//     name: "Row",
+//     className: "w-full min-h-[500px]",
+//     content: [
+//       ...Array(2).fill(null).map(() => ({
+//         id: uuidv4(),
+//         type: "column",
+//         name: "Column",
+//         className: "flex flex-col justify-center p-8 gap-4",
+//         content: [
+//           {
+//             id: uuidv4(),
+//             type: "image",
+//             name: "Image",
+//             className: "w-full h-64 object-cover rounded-xl",
+//             content:
+//               "https://plus.unsplash.com/premium_photo-1729004379397-ece899804701?q=80&w=2767&auto=format&fit=crop",
+//             alt: "Image",
+//           },
+//           {
+//             id: uuidv4(),
+//             type: "heading3",
+//             name: "Heading3",
+//             content: "",
+//             placeholder: "Heading",
+//           },
+//         ],
+//       })),
+//     ],
+//   },
+// };
+// export const TableLayout = {
+//   slideName: "Table Layout",
+//   type: "tableLayout",
+//   className: "min-h-[500px] w-full p-8",
+//   content: {
+//     id: uuidv4(),
+//     type: "table",
+//     name: "Table",
+//     initialRowSize: 3,
+//     initialColumnSize: 3,
+//     content: [],
+//   },
+// };
+// export const ThreeImageColumns = {
+//   slideName: "Three Image Columns",
+//   type: "threeImageColumns",
+//   className: "min-h-[500px] w-full",
+//   content: {
+//     id: uuidv4(),
+//     type: "column" as ContentType,
+//     name: "Row",
+//     className: "w-full min-h-[500px]",
+//     content: Array.from({ length: 3 }).map(() => ({
+//       id: uuidv4(),
+//       type: "column" as ContentType,
+//       name: "Column",
+//       className: "flex flex-col p-6 gap-4",
+//       content: [
+//         {
+//           id: uuidv4(),
+//           type: "image" as ContentType,
+//           name: "Image",
+//           className: "w-full h-64 object-cover rounded-xl",
+//           content:
+//             "https://plus.unsplash.com/premium_photo-1729004379397-ece899804701?q=80&w=2767&auto=format&fit=crop",
+//           alt: "Image",
+//         },
+//         {
+//           id: uuidv4(),
+//           type: "heading3" as ContentType,
+//           name: "Heading3",
+//           content: "",
+//           placeholder: "Heading",
+//         },
+//         {
+//           id: uuidv4(),
+//           type: "paragraph" as ContentType,
+//           name: "Paragraph",
+//           content: "",
+//           placeholder: "Start typing...",
+//         },
+//       ],
+//     })),
+//   },
+// };
+// export const FourImageColumns = {
+//   slideName: "Four Image Columns",
+//   type: "fourImageColumns",
+//   className: "min-h-[500px] w-full",
+//   content: {
+//     id: uuidv4(),
+//     type: "column" as ContentType,
+//     name: "Row",
+//     className: "w-full min-h-[500px]",
+//     content: Array.from({ length: 4 }).map(() => ({
+//       id: uuidv4(),
+//       type: "column" as ContentType,
+//       name: "Column",
+//       className: "flex flex-col p-4 gap-4",
+//       content: [
+//         {
+//           id: uuidv4(),
+//           type: "image" as ContentType,
+//           name: "Image",
+//           className: "w-full h-52 object-cover rounded-xl",
+//           content:
+//             "https://plus.unsplash.com/premium_photo-1729004379397-ece899804701?q=80&w=2767&auto=format&fit=crop",
+//           alt: "Image",
+//         },
+//         {
+//           id: uuidv4(),
+//           type: "heading3" as ContentType,
+//           name: "Heading3",
+//           content: "",
+//           placeholder: "Heading",
+//         },
+//         {
+//           id: uuidv4(),
+//           type: "paragraph" as ContentType,
+//           name: "Paragraph",
+//           content: "",
+//           placeholder: "Start typing...",
+//         },
+//       ],
+//     })),
+//   },
+// };
+// export const ThreeColumnsWithHeadings = {
+//   slideName: "Three columns with headings",
+//   type: "threeColumnsWithHeadings",
+//   className: "min-h-[500px] w-full",
+//   content: {
+//     id: uuidv4(),
+//     type: "column",
+//     name: "Row",
+//     className: "w-full min-h-[500px]",
+//     content: Array.from({ length: 3 }).map(() => ({
+//       id: uuidv4(),
+//       type: "column",
+//       name: "Column",
+//       className: "flex flex-col justify-center p-10 gap-4",
+//       content: [
+//         {
+//           id: uuidv4(),
+//           type: "heading3",
+//           name: "Heading3",
+//           content: "",
+//           placeholder: "Heading",
+//         },
+//         {
+//           id: uuidv4(),
+//           type: "paragraph",
+//           name: "Paragraph",
+//           content: "",
+//           placeholder: "Start typing...",
+//         },
+//       ],
+//     })),
+//   },
+// };
+// export const TwoColumnsWithHeadings = {
+//   slideName: "Two columns with headings",
+//   type: "twoColumnsWithHeadings",
+//   className: "min-h-[500px] w-full",
+//   content: {
+//     id: uuidv4(),
+//     type: "column",
+//     name: "Row",
+//     className: "w-full min-h-[500px]",
+//     content: Array.from({ length: 2 }).map(() => ({
+//       id: uuidv4(),
+//       type: "column",
+//       name: "Column",
+//       className: "flex flex-col justify-center p-12 gap-4",
+//       content: [
+//         {
+//           id: uuidv4(),
+//           type: "heading3",
+//           name: "Heading3",
+//           content: "",
+//           placeholder: "Heading",
+//         },
+//         {
+//           id: uuidv4(),
+//           type: "paragraph",
+//           name: "Paragraph",
+//           content: "",
+//           placeholder: "Start typing...",
+//         },
+//       ],
+//     })),
+//   },
+// };
+// export const TextAndImage = {
+//   slideName: "Text and image",
+//   type: "textAndImage",
+//   className: "min-h-[500px] w-full",
+//   content: {
+//     id: uuidv4(),
+//     type: "column",
+//     name: "Row",
+//     className: "w-full min-h-[500px]",
+//     content: [
+//       // LEFT (TEXT)
+//       {
+//         id: uuidv4(),
+//         type: "column",
+//         name: "Text Column",
+//         className: "flex flex-col justify-center p-12 gap-4",
+//         content: [
+//           {
+//             id: uuidv4(),
+//             type: "heading1",
+//             name: "Heading1",
+//             content: "",
+//             placeholder: "Heading",
+//           },
+//           {
+//             id: uuidv4(),
+//             type: "paragraph",
+//             name: "Paragraph",
+//             content: "",
+//             placeholder: "Start typing here...",
+//           },
+//         ],
+//       },
+
+//       // RIGHT (IMAGE)
+//       {
+//         id: uuidv4(),
+//         type: "image",
+//         name: "Image",
+//         className: "w-full h-full object-cover",
+//         content:
+//           "https://plus.unsplash.com/premium_photo-1729004379397-ece899804701?q=80&w=2767&auto=format&fit=crop",
+//         alt: "Image",
+//       },
+//     ],
+//   },
+// };

@@ -151,7 +151,7 @@ const ProjectCard = ({
   return (
     <motion.div
       variants={itemVatiants}
-      className={`group flex w-full flex-col gap-y-3 rounded-xl border-2 p-3 transition-colors ${!isDeleted && "hover:bg-black/5 dark:hover:bg-white/5"}`}
+      className={`group flex w-full flex-col gap-y-3 rounded-xl border-2 p-1 transition-colors ${!isDeleted && "hover:bg-black/5 dark:hover:bg-white/5"}`}
     >
       <div
         className="realtive aspect-[16/10] cursor-pointer overflow-hidden rounded-lg"

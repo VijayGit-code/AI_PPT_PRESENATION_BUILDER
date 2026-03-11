@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+ import { NextRequest, NextResponse } from "next/server";
 import pdfParse from "pdf-parse";
 import mammoth from "mammoth";
+import * as yauzl from "yauzl";
+
+import { generateSummaryAndLinks } from "@/actions/chatGPT";
 
 export const runtime = "nodejs";
-
-import * as yauzl from "yauzl";
 
 // -------- PPTX TEXT EXTRACTION --------
 function extractPPTXText(buffer: Buffer): Promise<string> {
@@ -22,22 +23,24 @@ function extractPPTXText(buffer: Buffer): Promise<string> {
           entry.fileName.endsWith(".xml")
         ) {
           zipfile.openReadStream(entry, (err: Error | null, stream?: NodeJS.ReadableStream) => {
-        if (err || !stream) return reject(err);
+            if (err || !stream) return reject(err);
 
-        let content: string = "";
+            let content = "";
 
-        stream.on("data", (chunk: Buffer) => {
-          content += chunk.toString();
-        });
-
-        stream.on("end", () => {
-          const matches: RegExpMatchArray | null = content.match(/<a:t>(.*?)<\/a:t>/g);
-          if (matches) {
-            matches.forEach((m: string) => {
-          text += m.replace(/<\/?a:t>/g, "") + " ";
+            stream.on("data", (chunk: Buffer) => {
+              content += chunk.toString();
             });
-          }
-          zipfile.readEntry();
+
+            stream.on("end", () => {
+              const matches = content.match(/<a:t>(.*?)<\/a:t>/g);
+
+              if (matches) {
+                matches.forEach((m: string) => {
+                  text += m.replace(/<\/?a:t>/g, "") + " ";
+                });
+              }
+
+              zipfile.readEntry();
             });
           });
         } else {
@@ -49,6 +52,8 @@ function extractPPTXText(buffer: Buffer): Promise<string> {
     });
   });
 }
+
+// -------- API ROUTE --------
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
@@ -95,13 +100,14 @@ export async function POST(req: NextRequest) {
       const result = await mammoth.extractRawText({ buffer });
       extractedText = result.value;
     }
+
     // PPTX
-else if (
-  file.type ===
-  "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-) {
-  extractedText = await extractPPTXText(buffer);
-}
+    else if (
+      file.type ===
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    ) {
+      extractedText = await extractPPTXText(buffer);
+    }
 
     else {
       return NextResponse.json(
@@ -110,16 +116,32 @@ else if (
       );
     }
 
+    // Prevent empty extraction
+    if (!extractedText.trim()) {
+      return NextResponse.json(
+        { message: "Could not extract text from file" },
+        { status: 400 }
+      );
+    }
+
+    // -------- SEND TO AI --------
+    const aiResponse = await generateSummaryAndLinks(extractedText);
+
+    if (aiResponse.status !== 200) {
+      throw new Error("AI generation failed");
+    }
+
     return NextResponse.json({
-      success: true,
-      text: extractedText.slice(0, 15000),
+      heading: aiResponse.heading,
+      summary: aiResponse.summary,
+      youtubeLinks: aiResponse.youtubeLinks,
     });
 
   } catch (error) {
     console.error("SERVER ERROR:", error);
 
     return NextResponse.json(
-      { message: "Extraction failed" },
+      { message: "Extraction or AI generation failed" },
       { status: 500 }
     );
   }

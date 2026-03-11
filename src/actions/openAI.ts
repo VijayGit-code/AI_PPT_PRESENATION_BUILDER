@@ -40,3 +40,5 @@ export async function generateAIResponse(
     throw error;
   }
 }
+
+

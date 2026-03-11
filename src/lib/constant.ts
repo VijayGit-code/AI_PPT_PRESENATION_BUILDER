@@ -1,4 +1,4 @@
-import { Home, Settings, Trash } from "lucide-react";
+import { FileText, Home, Settings, Trash } from "lucide-react";
 import { ComponentGroup, LayoutGroup, Theme } from "./types";
 import {
   BlankCardIcon,
@@ -75,6 +75,12 @@ export const data = {
       icon: Settings,
       isActive: false,
     },
+    {
+  title: "File Summarizer",
+  url: "/file-summarizer",
+  icon: FileText,
+  isActive: false,
+}
   ],
 };
 

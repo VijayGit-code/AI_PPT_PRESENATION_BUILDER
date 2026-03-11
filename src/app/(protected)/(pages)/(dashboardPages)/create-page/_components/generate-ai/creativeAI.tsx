@@ -1,6 +1,6 @@
 "use client";
 
-import { generateCreativePrompt } from "@/actions/chatGPT";
+import { generateCreativePrompt, generateSingleHeading } from "@/actions/chatGPT";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { containerVaraints, itemVatiants } from "@/lib/constant";
@@ -31,6 +31,9 @@ const CreateAI = ({ onBack }: CreativeAIProps) => {
   const [editingCard, setEditingCard] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
+  const [fileProcessing, setFileProcessing] = useState(false);                // track upload in progress
+  const [showSearchBar, setShowSearchBar] = useState(false);                  // show input after extraction
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const {
     currentAIPrompt,
     outlines,
@@ -48,6 +51,8 @@ const CreateAI = ({ onBack }: CreativeAIProps) => {
 
     setCurrentAIPrompt("");
     resetOutlines();
+    setShowSearchBar(false);
+    setUploadError(null);
   };
 
   const generateOutlines = async () => {
@@ -244,43 +249,53 @@ const CreateAI = ({ onBack }: CreativeAIProps) => {
 //   }
 // };
 
-const handleFileUpload = async (
+ const handleFileUpload = async (
   event: React.ChangeEvent<HTMLInputElement>
 ) => {
-  const file = event.target.files?.[0]
-  if (!file) return
+  const file = event.target.files?.[0];
+  if (!file) return;
 
-  const formData = new FormData()
-  formData.append("file", file)
+  const formData = new FormData();
+  formData.append("file", file);
 
-  const loadingToast = toast.loading("Extracting text...")
+  const loadingToast = toast.loading("Extracting text...");
 
   try {
     const response = await fetch("/api/data", {
       method: "POST",
       body: formData,
-      cache: "no-store",
-    })
+    });
 
-    const data = await response.json()
+    const textResponse = await response.text();
 
-    toast.dismiss(loadingToast)
+    let data;
+    try {
+      data = JSON.parse(textResponse);
+    } catch {
+      throw new Error("Invalid server response");
+    }
 
-    if (response.ok) {
-      setCurrentAIPrompt(data.text)   // 🔥 Store extracted content
-      toast.success("File processed successfully!")
+    toast.dismiss(loadingToast);
+
+    if (response.ok && data.text) {
+      const headingResponse = await generateSingleHeading(data.text);
+      if (headingResponse.status === 200 && headingResponse.heading) {
+        setCurrentAIPrompt(headingResponse.heading);
+        toast.success("Text extracted successfully");
+      } else {
+        toast.error(headingResponse.error || "Failed to generate heading");
+      }
     } else {
-      toast.error(data.message || "Extraction failed")
+      toast.error(data.message || "Extraction failed");
     }
 
   } catch (error) {
-    toast.dismiss(loadingToast)
-    toast.error("Upload failed")
+    toast.dismiss(loadingToast);
+    toast.error("Upload failed");
   }
 
-  // 🔥 Reset input so same file can be uploaded again
-  event.target.value = ""
-}
+  event.target.value = "";
+};
  
 
   return (
@@ -294,6 +309,8 @@ const handleFileUpload = async (
         onClick={() => {
           resetCurrentAIPrompt();
           resetOutlines();
+          setShowSearchBar(false);
+          setUploadError(null);
           onBack();
         }}
         variant={"outline"}
@@ -315,15 +332,32 @@ const handleFileUpload = async (
         className="bg-primary/10 rounded-xl p-4"
       >
         <div className="flex flex-col items-center justify-between gap-3 rounded-xl sm:flex-row">
-          <Input
-            value={currentAIPrompt}
-            onChange={(e) => {
-              setCurrentAIPrompt(e.target.value);
-            }}
-            required
-            placeholder="Enter a prompt and add to the cards . . . "
-            className="flex-grow border-0 bg-transparent py-0 text-base shadow-none focus-visible:ring-0 sm:text-xl"
-          />
+          {/* show input/search bar once file text is ready or always allow manual prompt */}
+          {(showSearchBar || !fileProcessing) && (
+            <Input
+              value={currentAIPrompt}
+              onChange={(e) => {
+                setCurrentAIPrompt(e.target.value);
+              }}
+              required
+              placeholder={
+                showSearchBar
+                  ? "Search extracted text or enter a new prompt..."
+                  : "Enter a prompt and add to the cards . . . "
+              }
+              className="flex-grow border-0 bg-transparent py-0 text-base shadow-none focus-visible:ring-0 sm:text-xl"
+            />
+          )}
+          {fileProcessing && (
+            <div className="ml-2 text-sm italic text-secondary-foreground">
+              processing file...
+            </div>
+          )}
+          {uploadError && (
+            <div className="mt-1 text-sm text-destructive">
+              {uploadError}
+            </div>
+          )}
           <div className="flex items-center gap-3">
             <div
               className={`flex w-fit min-w-28 items-center justify-center rounded-lg border border-black/20 px-4 py-1 font-semibold shadow-xl dark:border-white/20 ${numberOfCards === 0 || numberOfCards >= 15 ? "text-red-500" : "text-primary"}`}

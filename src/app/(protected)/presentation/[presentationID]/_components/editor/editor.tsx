@@ -160,6 +160,7 @@ export const DragableSlide: React.FC<DragableSlideProps> = ({
           isPreview={false}
           slideId={slide.id}
           onContentChange={handleContentChange}
+          slideType={slide.type} 
         />
       </div>
       {isEditable && (

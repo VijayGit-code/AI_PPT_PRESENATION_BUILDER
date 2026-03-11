@@ -86,7 +86,7 @@ const Page = () => {
           }}
         >
           <LayoutPreview />
-          <div className="ml-64 flex-1 pr-16">
+          <div className="ml-40 flex-1 pr-16 ">
             <Editor isEditable={true} />
           </div>
           <EditorSidebar />

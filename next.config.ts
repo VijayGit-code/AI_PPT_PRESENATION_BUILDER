@@ -25,7 +25,12 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
         port: "",
         pathname: "/**",
-      },  {
+      },
+      {
+  protocol: "https",
+  hostname: "1e3cdfbsmy.ucarecd.net",
+  pathname: "/**",
+},  {
         protocol: "https",
         hostname: "image.pollinations.ai",
         port: "",
@@ -42,13 +47,7 @@ const nextConfig: NextConfig = {
         hostname: "via.placeholder.com",
         port: "",
         pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "ucarecdn.com",
-        port: "",
-        pathname: "/**",
-      },
+      }, 
       {
         protocol: "https",
         hostname: "placeholder.co",
