@@ -1,4 +1,6 @@
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextRequest } from "next/server";
+import PptxGenJS from "pptxgenjs";
 import { NextRequest } from "next/server";
 import PptxGenJS from "pptxgenjs";
 import { PDFDocument, PDFPage, rgb } from "pdf-lib";
@@ -11,7 +13,7 @@ export async function POST(
   context: { params: { presentationID: string } }
 ) {
   try {
-    const { presentationID } = await context.params;
+    const { presentationID } =  context.params;
     const { searchParams } = new URL(req.url);
     const type = searchParams.get("type");
 
