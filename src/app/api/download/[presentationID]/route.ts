@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextRequest } from "next/server";
-import PptxGenJS from "pptxgenjs";
-import { NextRequest } from "next/server";
-import PptxGenJS from "pptxgenjs";
+import { NextRequest } from "next/server"; 
+import { NextRequest } from "next/server"; 
 import { PDFDocument, PDFPage, rgb } from "pdf-lib";
 import { Document, ImageRun, Packer, Paragraph, TextRun } from "docx";
 
@@ -200,6 +198,7 @@ function drawWrappedText(page: PDFPage, text: string, x: number, y: number, size
     // ================= PPT =================
  
 if (type === "ppt") {
+  const { default: PptxGenJS } = await import("pptxgenjs");
   const pptx = new PptxGenJS();
 
   slides.forEach((slideData: any) => {
