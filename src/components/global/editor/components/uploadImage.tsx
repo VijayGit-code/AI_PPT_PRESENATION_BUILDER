@@ -59,7 +59,11 @@
 //     onContentChange(contentId, cdnUrl);
 //   }
 // };
-const handleChangeEvent = (fileInfo: any) => {
+    type UploadcareFile = {
+  uuid: string;
+  name: string;
+};
+const handleChangeEvent = (fileInfo: UploadcareFile) => {
   console.log("UPLOAD OBJECT:", fileInfo);
 
   const uuid = fileInfo?.uuid;
