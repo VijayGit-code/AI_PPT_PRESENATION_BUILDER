@@ -8,10 +8,10 @@ export const runtime = "nodejs";
 
 export async function POST(
   req: NextRequest,
-  context: { params: { presentationID: string } }
+  params: { presentationID: string } 
 ) {
   try {
-    const { presentationID } =  context.params;
+    const { presentationID } =  params;
     const { searchParams } = new URL(req.url);
     const type = searchParams.get("type");
 
