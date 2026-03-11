@@ -79,6 +79,11 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '10mb', // increase limit
     },
   },
+    serverExternalPackages: [
+    "pptxgenjs",
+    "pdf-lib",
+    "docx"
+  ],
    eslint: {
     ignoreDuringBuilds: true,
   },
