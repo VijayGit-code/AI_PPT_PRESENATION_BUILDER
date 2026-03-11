@@ -7,10 +7,10 @@ export const runtime = "nodejs";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Record<string, string> }
+  { params }: { params: { presentationID: string } }
 ) {
   try { 
-    const { presentationID } =  params;
+    const  presentationID  =  params.presentationID;
     const { searchParams } = new URL(req.url);
     const type = searchParams.get("type");
 
